@@ -31,7 +31,6 @@ class NewVisitorTest(unittest.TestCase):
             'Enter a to-do item'
         )
                          
-
         # He types "Buy Hafermilch" into a textbox
         inputbox.send_keys('Buy Hafermilch')
 
@@ -41,15 +40,28 @@ class NewVisitorTest(unittest.TestCase):
         time.sleep(1)
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == '1: Buy Hafermilch' for row in rows),
-            'New to-do item did not appear in the table'
-        )
+        
+        self.assertIn('1: Buy Hafermilch', [row.text for row in rows])
+        
+        # self.assertTrue(
+        #     any(row.text == '1: Buy Hafermilch' for row in rows),
+        #     f'New to-do item did not appear in the table.\n'
+        #     f'Contents were:\n{table.text}'
+        # )
 
         # There is still a textbox inviting him to add another item. He
         # enters "Call mum"
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Call mum')
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
 
         # The page updates again, and now shows both items on his list
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        
+        self.assertIn('1: Buy Hafermilch', [row.text for row in rows])
+        self.assertIn('2: Call mum', [row.text for row in rows])
 
         # Simon wonders wheter the site will remember his list. Then he sees
         # that the has generated a unique URL for him -- there is some
