@@ -69,6 +69,8 @@ class NewVisitorTest(unittest.TestCase):
         # He visits that URL - his to-do list is still here
 
         # Satisfied, he goes back to sleep
+        
+        self.fail('Finish tests from above!!')
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
