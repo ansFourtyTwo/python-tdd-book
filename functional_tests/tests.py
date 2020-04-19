@@ -96,12 +96,12 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Go to church')
         inputbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('Go to church')
+        self.wait_for_row_in_list_table('1: Go to church')
         
         # Francis gets his own unique URL
         francis_list_url = self.browser.current_url
         self.assertRegex(francis_list_url, '/lists/.+')
-        assertNotEqual(simon_list_url, francis_list_url)
+        self.assertNotEqual(simon_list_url, francis_list_url)
         
         # Again, there is no trace of Simon's list
         page_text = self.browser.find_element_by_tag_name('body').text
