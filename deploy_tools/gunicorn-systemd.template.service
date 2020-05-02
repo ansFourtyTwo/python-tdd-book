@@ -1,0 +1,15 @@
+[Unit]
+Description=Gunicorn server for DOMAIN
+
+[Service]
+Restart=on-failure
+User=sfink
+WorkingDirectory=/home/sfink/sites/DOMAIN
+EnvironmentFile=/home/sfink/sites/DOMAIN/.env
+
+ExecStart=/home/sfink/sites/DOMAIN/venv/bin/gunicorn \
+    --bind unix:/var/sockets/DOMAIN.socket \
+    superlist.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
