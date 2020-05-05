@@ -90,6 +90,8 @@ def _load_services():
     run(
         f'sudo systemctl daemon-reload'
         f' && sudo systemctl reload nginx'
-        f' && sudo systemctl enable gunicorn-{env.host}.service'
-        f' && sudo systemctl start gunicorn-{env.host}.service'
+        f' && (sudo systemctl is-active gunicorn-{env.host}'
+        f' && sudo systemctl restart gunicorn-{env.host}'
+        f' || sudo systemctl start gunicorn-{env.host} )'
+        f' && sudo systemctl enable gunicorn-{env.host}'
     )
