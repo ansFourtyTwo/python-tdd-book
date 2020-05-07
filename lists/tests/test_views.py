@@ -60,11 +60,11 @@ class ListViewTest(TestCase):
         
     def test_displays_all_items(self):
         correct_list = List.objects.create()
-        Item.objects.create(text='Dummy item 1', list=correct_list)
-        Item.objects.create(text='Dummy item 2', list=correct_list)
+        Item.objects.create(text='Dummy item 1', _list=correct_list)
+        Item.objects.create(text='Dummy item 2', _list=correct_list)
         other_list = List.objects.create()
-        Item.objects.create(text='Other list item 1', list=other_list)
-        Item.objects.create(text='Other list item 2', list=other_list)
+        Item.objects.create(text='Other list item 1', _list=other_list)
+        Item.objects.create(text='Other list item 2', _list=other_list)
         
         response = self.client.get(f'/lists/{correct_list.id}/')
         
@@ -93,7 +93,7 @@ class ListViewTest(TestCase):
         self.assertEqual(new_item.text,
             'A new item for an existing list'
         )
-        self.assertEqual(new_item.list, correct_list)
+        self.assertEqual(new_item._list, correct_list)
 
     def test_POST_redirects_to_list_view(self):
         other_list = List.objects.create()
